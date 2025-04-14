@@ -166,157 +166,157 @@ $mqtt->disconnect();
       <CardHeader className="pb-2">
         <div className="flex justify-between items-center">
           <CardTitle className="text-xl font-bold">Docker Setup Guide</CardTitle>
-          <CollapsibleTrigger asChild onClick={() => setIsOpen(!isOpen)}>
-            <Button variant="ghost" size="sm">
-              <ChevronsUpDown className="h-4 w-4" />
-              <span className="sr-only">Toggle</span>
-            </Button>
-          </CollapsibleTrigger>
+          <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+            <CollapsibleTrigger asChild>
+              <Button variant="ghost" size="sm">
+                <ChevronsUpDown className="h-4 w-4" />
+                <span className="sr-only">Toggle</span>
+              </Button>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <CardContent>
+                <Tabs defaultValue="docker">
+                  <TabsList className="grid grid-cols-3">
+                    <TabsTrigger value="docker" className="flex items-center gap-1">
+                      <Server size={14} />
+                      Docker
+                    </TabsTrigger>
+                    <TabsTrigger value="python" className="flex items-center gap-1">
+                      <Terminal size={14} />
+                      Python
+                    </TabsTrigger>
+                    <TabsTrigger value="php" className="flex items-center gap-1">
+                      <FileCode size={14} />
+                      PHP
+                    </TabsTrigger>
+                  </TabsList>
+                  
+                  <TabsContent value="docker" className="space-y-4 mt-4">
+                    <div className="space-y-2">
+                      <h3 className="font-semibold">Setup Mosquitto MQTT Broker with Docker</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Follow these steps to run the Mosquitto MQTT broker using Docker:
+                      </p>
+                      
+                      <div className="bg-muted rounded-md p-3 relative">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="absolute top-2 right-2 h-6 w-6"
+                          onClick={() => copyToClipboard(dockerComposeYaml)}
+                        >
+                          <Copy className="h-3 w-3" />
+                        </Button>
+                        <pre className="text-xs overflow-x-auto whitespace-pre-wrap">
+                          {dockerComposeYaml}
+                        </pre>
+                      </div>
+                      
+                      <p className="text-sm mt-2">Create a Mosquitto configuration file:</p>
+                      <div className="bg-muted rounded-md p-3 relative">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="absolute top-2 right-2 h-6 w-6"
+                          onClick={() => copyToClipboard(mosquittoConfig)}
+                        >
+                          <Copy className="h-3 w-3" />
+                        </Button>
+                        <pre className="text-xs overflow-x-auto whitespace-pre-wrap">
+                          {mosquittoConfig}
+                        </pre>
+                      </div>
+                      
+                      <p className="text-sm mt-2">Then run with:</p>
+                      <div className="bg-muted rounded-md p-3 relative">
+                        <pre className="text-xs">docker-compose up -d</pre>
+                      </div>
+                    </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="python" className="space-y-4 mt-4">
+                    <div className="space-y-2">
+                      <h3 className="font-semibold">Python MQTT Examples</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Use Python to interact with the MQTT broker:
+                      </p>
+                      
+                      <h4 className="font-medium text-sm mt-3">Publisher Script</h4>
+                      <div className="bg-muted rounded-md p-3 relative">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="absolute top-2 right-2 h-6 w-6"
+                          onClick={() => copyToClipboard(pythonPublisherCode)}
+                        >
+                          <Copy className="h-3 w-3" />
+                        </Button>
+                        <pre className="text-xs overflow-x-auto whitespace-pre-wrap">
+                          {pythonPublisherCode}
+                        </pre>
+                      </div>
+                      
+                      <h4 className="font-medium text-sm mt-3">Subscriber Script</h4>
+                      <div className="bg-muted rounded-md p-3 relative">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="absolute top-2 right-2 h-6 w-6"
+                          onClick={() => copyToClipboard(pythonSubscriberCode)}
+                        >
+                          <Copy className="h-3 w-3" />
+                        </Button>
+                        <pre className="text-xs overflow-x-auto whitespace-pre-wrap">
+                          {pythonSubscriberCode}
+                        </pre>
+                      </div>
+                    </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="php" className="space-y-4 mt-4">
+                    <div className="space-y-2">
+                      <h3 className="font-semibold">PHP MQTT Examples</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Use PHP to interact with the MQTT broker:
+                      </p>
+                      
+                      <h4 className="font-medium text-sm mt-3">Publisher Script</h4>
+                      <div className="bg-muted rounded-md p-3 relative">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="absolute top-2 right-2 h-6 w-6"
+                          onClick={() => copyToClipboard(phpPublisherCode)}
+                        >
+                          <Copy className="h-3 w-3" />
+                        </Button>
+                        <pre className="text-xs overflow-x-auto whitespace-pre-wrap">
+                          {phpPublisherCode}
+                        </pre>
+                      </div>
+                      
+                      <h4 className="font-medium text-sm mt-3">Subscriber Script</h4>
+                      <div className="bg-muted rounded-md p-3 relative">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="absolute top-2 right-2 h-6 w-6"
+                          onClick={() => copyToClipboard(phpSubscriberCode)}
+                        >
+                          <Copy className="h-3 w-3" />
+                        </Button>
+                        <pre className="text-xs overflow-x-auto whitespace-pre-wrap">
+                          {phpSubscriberCode}
+                        </pre>
+                      </div>
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </CardContent>
+            </CollapsibleContent>
+          </Collapsible>
         </div>
       </CardHeader>
-      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-        <CollapsibleContent>
-          <CardContent>
-            <Tabs defaultValue="docker">
-              <TabsList className="grid grid-cols-3">
-                <TabsTrigger value="docker" className="flex items-center gap-1">
-                  <Server size={14} />
-                  Docker
-                </TabsTrigger>
-                <TabsTrigger value="python" className="flex items-center gap-1">
-                  <Terminal size={14} />
-                  Python
-                </TabsTrigger>
-                <TabsTrigger value="php" className="flex items-center gap-1">
-                  <FileCode size={14} />
-                  PHP
-                </TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="docker" className="space-y-4 mt-4">
-                <div className="space-y-2">
-                  <h3 className="font-semibold">Setup Mosquitto MQTT Broker with Docker</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Follow these steps to run the Mosquitto MQTT broker using Docker:
-                  </p>
-                  
-                  <div className="bg-muted rounded-md p-3 relative">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="absolute top-2 right-2 h-6 w-6"
-                      onClick={() => copyToClipboard(dockerComposeYaml)}
-                    >
-                      <Copy className="h-3 w-3" />
-                    </Button>
-                    <pre className="text-xs overflow-x-auto whitespace-pre-wrap">
-                      {dockerComposeYaml}
-                    </pre>
-                  </div>
-                  
-                  <p className="text-sm mt-2">Create a Mosquitto configuration file:</p>
-                  <div className="bg-muted rounded-md p-3 relative">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="absolute top-2 right-2 h-6 w-6"
-                      onClick={() => copyToClipboard(mosquittoConfig)}
-                    >
-                      <Copy className="h-3 w-3" />
-                    </Button>
-                    <pre className="text-xs overflow-x-auto whitespace-pre-wrap">
-                      {mosquittoConfig}
-                    </pre>
-                  </div>
-                  
-                  <p className="text-sm mt-2">Then run with:</p>
-                  <div className="bg-muted rounded-md p-3 relative">
-                    <pre className="text-xs">docker-compose up -d</pre>
-                  </div>
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="python" className="space-y-4 mt-4">
-                <div className="space-y-2">
-                  <h3 className="font-semibold">Python MQTT Examples</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Use Python to interact with the MQTT broker:
-                  </p>
-                  
-                  <h4 className="font-medium text-sm mt-3">Publisher Script</h4>
-                  <div className="bg-muted rounded-md p-3 relative">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="absolute top-2 right-2 h-6 w-6"
-                      onClick={() => copyToClipboard(pythonPublisherCode)}
-                    >
-                      <Copy className="h-3 w-3" />
-                    </Button>
-                    <pre className="text-xs overflow-x-auto whitespace-pre-wrap">
-                      {pythonPublisherCode}
-                    </pre>
-                  </div>
-                  
-                  <h4 className="font-medium text-sm mt-3">Subscriber Script</h4>
-                  <div className="bg-muted rounded-md p-3 relative">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="absolute top-2 right-2 h-6 w-6"
-                      onClick={() => copyToClipboard(pythonSubscriberCode)}
-                    >
-                      <Copy className="h-3 w-3" />
-                    </Button>
-                    <pre className="text-xs overflow-x-auto whitespace-pre-wrap">
-                      {pythonSubscriberCode}
-                    </pre>
-                  </div>
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="php" className="space-y-4 mt-4">
-                <div className="space-y-2">
-                  <h3 className="font-semibold">PHP MQTT Examples</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Use PHP to interact with the MQTT broker:
-                  </p>
-                  
-                  <h4 className="font-medium text-sm mt-3">Publisher Script</h4>
-                  <div className="bg-muted rounded-md p-3 relative">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="absolute top-2 right-2 h-6 w-6"
-                      onClick={() => copyToClipboard(phpPublisherCode)}
-                    >
-                      <Copy className="h-3 w-3" />
-                    </Button>
-                    <pre className="text-xs overflow-x-auto whitespace-pre-wrap">
-                      {phpPublisherCode}
-                    </pre>
-                  </div>
-                  
-                  <h4 className="font-medium text-sm mt-3">Subscriber Script</h4>
-                  <div className="bg-muted rounded-md p-3 relative">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="absolute top-2 right-2 h-6 w-6"
-                      onClick={() => copyToClipboard(phpSubscriberCode)}
-                    >
-                      <Copy className="h-3 w-3" />
-                    </Button>
-                    <pre className="text-xs overflow-x-auto whitespace-pre-wrap">
-                      {phpSubscriberCode}
-                    </pre>
-                  </div>
-                </div>
-              </TabsContent>
-            </Tabs>
-          </CardContent>
-        </CollapsibleContent>
-      </Collapsible>
     </Card>
   );
 };
