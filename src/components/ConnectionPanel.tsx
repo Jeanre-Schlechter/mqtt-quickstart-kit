@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -38,11 +39,12 @@ const ConnectionPanel = () => {
       ...connectionOptions,
       clientId,
       clean,
-      port: 19048, // Updated port
+      port: 9001, // WebSocket port
+      protocol: 'wss', // Secure WebSockets
     };
     
     setConnectionOptions(options);
-    connect('mqtt://5.tcp.eu.ngrok.io', options);
+    connect('wss://5.tcp.eu.ngrok.io', options);
   };
 
   const handleDisconnect = () => {
@@ -66,7 +68,7 @@ const ConnectionPanel = () => {
         <div className="space-y-4">
           <div>
             <p className="text-sm mb-2">
-              Broker: <strong>mqtt://5.tcp.eu.ngrok.io:19048</strong>
+              Broker: <strong>wss://5.tcp.eu.ngrok.io:9001</strong>
             </p>
           </div>
           
