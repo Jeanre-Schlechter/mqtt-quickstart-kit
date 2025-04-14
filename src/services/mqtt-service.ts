@@ -1,6 +1,6 @@
-
 import mqtt, { MqttClient, IClientOptions, IClientSubscribeOptions } from 'mqtt';
 import { create } from 'zustand';
+import { toast } from '@/hooks/use-toast';
 
 export interface Message {
   topic: string;
@@ -35,7 +35,7 @@ export const useMQTTStore = create<MQTTState>((set, get) => ({
     clientId: `mqttjs_${Math.random().toString(16).substr(2, 8)}`,
     clean: true,
   },
-  brokerUrl: 'ws://localhost:9001',
+  brokerUrl: 'wss://broker.emqx.io:8084',
   
   connect: (url?: string, options?: IClientOptions) => {
     const state = get();
@@ -48,11 +48,32 @@ export const useMQTTStore = create<MQTTState>((set, get) => ({
     
     try {
       console.log(`Connecting to ${brokerUrl}...`);
+      
+      // Security check
+      const isHttps = window.location.protocol === 'https:';
+      const isInsecureBroker = brokerUrl.startsWith('ws://') || brokerUrl.startsWith('mqtt://');
+      
+      if (isHttps && isInsecureBroker) {
+        const errorMsg = 'Security Error: Cannot connect to insecure WebSocket (ws:// or mqtt://) from an HTTPS page. Please use secure protocols (wss:// or mqtts://).';
+        console.error(errorMsg);
+        toast({
+          title: "Connection Failed",
+          description: errorMsg,
+          variant: "destructive"
+        });
+        return;
+      }
+      
       const client = mqtt.connect(brokerUrl, connectionOptions);
       
       client.on('connect', () => {
         console.log('Connected to MQTT broker');
         set({ connected: true });
+        
+        toast({
+          title: "Connection Successful",
+          description: `Connected to ${brokerUrl}`,
+        });
         
         // Resubscribe to previous topics
         state.subscriptions.forEach(topic => {
@@ -74,7 +95,14 @@ export const useMQTTStore = create<MQTTState>((set, get) => ({
       });
       
       client.on('error', (err) => {
-        console.error('MQTT Error:', err);
+        const errorMsg = `MQTT Error: ${err.message}`;
+        console.error(errorMsg, err);
+        
+        toast({
+          title: "Connection Error",
+          description: errorMsg,
+          variant: "destructive"
+        });
       });
       
       client.on('close', () => {
@@ -89,7 +117,17 @@ export const useMQTTStore = create<MQTTState>((set, get) => ({
       
       set({ client });
     } catch (error) {
-      console.error('Failed to connect to MQTT broker:', error);
+      const errorMsg = error instanceof Error ? 
+        `Failed to connect to MQTT broker: ${error.message}` : 
+        'Failed to connect to MQTT broker';
+      
+      console.error(errorMsg, error);
+      
+      toast({
+        title: "Connection Failed",
+        description: errorMsg,
+        variant: "destructive"
+      });
     }
   },
   
@@ -98,6 +136,11 @@ export const useMQTTStore = create<MQTTState>((set, get) => ({
     if (client) {
       client.end();
       set({ client: null, connected: false });
+      
+      toast({
+        title: "Disconnected",
+        description: "Successfully disconnected from MQTT broker",
+      });
     }
   },
   
@@ -107,6 +150,11 @@ export const useMQTTStore = create<MQTTState>((set, get) => ({
       client.publish(topic, message, options);
     } else {
       console.error('Cannot publish: MQTT client not connected');
+      toast({
+        title: "Publish Failed",
+        description: "Cannot publish: MQTT client not connected",
+        variant: "destructive"
+      });
     }
   },
   
@@ -119,6 +167,11 @@ export const useMQTTStore = create<MQTTState>((set, get) => ({
       }
     } else {
       console.error('Cannot subscribe: MQTT client not connected');
+      toast({
+        title: "Subscribe Failed",
+        description: "Cannot subscribe: MQTT client not connected",
+        variant: "destructive"
+      });
     }
   },
   

@@ -7,7 +7,8 @@ import { Switch } from '@/components/ui/switch';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { AlertCircle, Check, Cable, Server } from 'lucide-react';
+import { AlertCircle, Check, Cable, Server, AlertTriangle } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import useMQTTStore from '@/services/mqtt-service';
 
 const ConnectionPanel = () => {
@@ -27,6 +28,7 @@ const ConnectionPanel = () => {
   const [clientId, setClientId] = useState(connectionOptions.clientId || '');
   const [clean, setClean] = useState(connectionOptions.clean !== false);
   const [brokerAddress, setBrokerAddress] = useState(brokerUrl);
+  const [showSecurityWarning, setShowSecurityWarning] = useState(false);
   
   useEffect(() => {
     // Generate a random client ID if not set
@@ -34,6 +36,15 @@ const ConnectionPanel = () => {
       setClientId(`mqtt-dashboard-${Math.random().toString(16).substr(2, 8)}`);
     }
   }, [clientId]);
+
+  useEffect(() => {
+    // Check if the current page is loaded over HTTPS
+    const isHttps = window.location.protocol === 'https:';
+    // Check if the broker URL uses insecure protocol
+    const isInsecureBroker = brokerAddress.startsWith('ws://') || brokerAddress.startsWith('mqtt://');
+    
+    setShowSecurityWarning(isHttps && isInsecureBroker);
+  }, [brokerAddress]);
 
   const handleConnect = () => {
     const options = {
@@ -54,6 +65,16 @@ const ConnectionPanel = () => {
     disconnect();
   };
 
+  // Function to update broker address with proper protocol
+  const updateBrokerAddress = (address: string) => {
+    setBrokerAddress(address);
+    
+    // Show security warning if needed
+    const isHttps = window.location.protocol === 'https:';
+    const isInsecureBroker = address.startsWith('ws://') || address.startsWith('mqtt://');
+    setShowSecurityWarning(isHttps && isInsecureBroker);
+  };
+
   return (
     <Card className="shadow-md">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -68,6 +89,16 @@ const ConnectionPanel = () => {
         </Badge>
       </CardHeader>
       <CardContent>
+        {showSecurityWarning && (
+          <Alert variant="warning" className="mb-4">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertDescription>
+              Security Warning: When using a page loaded over HTTPS, you must use secure WebSocket connections (wss:// or mqtts://). 
+              Insecure connections will be blocked by the browser.
+            </AlertDescription>
+          </Alert>
+        )}
+      
         <Tabs defaultValue="broker">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="broker" className="flex items-center gap-1">
@@ -84,13 +115,14 @@ const ConnectionPanel = () => {
               <Label htmlFor="broker">Broker Address</Label>
               <Input
                 id="broker"
-                placeholder="ws://localhost:9001"
+                placeholder="wss://broker.example.com:9001"
                 value={brokerAddress}
-                onChange={(e) => setBrokerAddress(e.target.value)}
+                onChange={(e) => updateBrokerAddress(e.target.value)}
                 disabled={connected}
               />
               <p className="text-xs text-muted-foreground">
-                Use ws:// for WebSocket or mqtt:// for TCP connections
+                Use wss:// for secure WebSocket or mqtts:// for secure TCP connections.
+                Note: When using HTTPS, secure protocols are required.
               </p>
             </div>
           </TabsContent>
