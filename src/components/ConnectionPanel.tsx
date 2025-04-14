@@ -39,7 +39,7 @@ const ConnectionPanel = () => {
       ...connectionOptions,
       clientId,
       clean,
-      port: 9001, // WebSocket port
+      port: 19048, // WebSocket port
       protocol: 'wss', // Secure WebSockets
     };
     
@@ -68,7 +68,7 @@ const ConnectionPanel = () => {
         <div className="space-y-4">
           <div>
             <p className="text-sm mb-2">
-              Broker: <strong>wss://5.tcp.eu.ngrok.io:9001</strong>
+              Broker: <strong>wss://5.tcp.eu.ngrok.io:19048</strong>
             </p>
           </div>
           

@@ -26,7 +26,7 @@ services:
     container_name: mosquitto
     ports:
       - "1883:1883"  # MQTT port
-      - "9001:9001"  # Websocket port
+      - "19048:19048"  # Websocket port
     volumes:
       - ./mosquitto/config:/mosquitto/config
       - ./mosquitto/data:/mosquitto/data
@@ -35,7 +35,7 @@ services:
   
   const mosquittoConfig = `# /mosquitto/config/mosquitto.conf
 listener 1883
-listener 9001
+listener 19048
 protocol websockets
 allow_anonymous true
 persistence true
