@@ -1,3 +1,4 @@
+
 import mqtt, { MqttClient, IClientOptions, IClientSubscribeOptions } from 'mqtt';
 import { create } from 'zustand';
 import { toast } from '@/hooks/use-toast';
@@ -34,8 +35,9 @@ export const useMQTTStore = create<MQTTState>((set, get) => ({
   connectionOptions: {
     clientId: `mqttjs_${Math.random().toString(16).substr(2, 8)}`,
     clean: true,
+    port: 15085,
   },
-  brokerUrl: 'wss://broker.emqx.io:8084',
+  brokerUrl: 'mqtt://4.tcp.eu.ngrok.io',
   
   connect: (url?: string, options?: IClientOptions) => {
     const state = get();
@@ -48,21 +50,6 @@ export const useMQTTStore = create<MQTTState>((set, get) => ({
     
     try {
       console.log(`Connecting to ${brokerUrl}...`);
-      
-      // Security check
-      const isHttps = window.location.protocol === 'https:';
-      const isInsecureBroker = brokerUrl.startsWith('ws://') || brokerUrl.startsWith('mqtt://');
-      
-      if (isHttps && isInsecureBroker) {
-        const errorMsg = 'Security Error: Cannot connect to insecure WebSocket (ws:// or mqtt://) from an HTTPS page. Please use secure protocols (wss:// or mqtts://).';
-        console.error(errorMsg);
-        toast({
-          title: "Connection Failed",
-          description: errorMsg,
-          variant: "destructive"
-        });
-        return;
-      }
       
       const client = mqtt.connect(brokerUrl, connectionOptions);
       

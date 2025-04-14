@@ -5,10 +5,8 @@ import ConnectionPanel from '@/components/ConnectionPanel';
 import PublishPanel from '@/components/PublishPanel';
 import SubscriptionPanel from '@/components/SubscriptionPanel';
 import MessageLog from '@/components/MessageLog';
-import DataVisualization from '@/components/DataVisualization';
-import DockerHelper from '@/components/DockerHelper';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 const Index = () => {
   const { toast } = useToast();
@@ -16,8 +14,8 @@ const Index = () => {
   useEffect(() => {
     // Welcome toast on first load
     toast({
-      title: "Welcome to MQTT Dashboard",
-      description: "Connect to a broker to start publishing and subscribing to MQTT messages",
+      title: "MQTT Dashboard",
+      description: "Connect to your broker to start publishing and subscribing to topics",
     });
   }, [toast]);
 
@@ -28,29 +26,20 @@ const Index = () => {
           <div className="text-left">
             <h1 className="text-3xl font-bold tracking-tight">MQTT Dashboard</h1>
             <p className="text-muted-foreground">
-              A complete MQTT client for monitoring and controlling IoT devices
+              Connected to mqtt://4.tcp.eu.ngrok.io:15085 with topic demo/topic
             </p>
           </div>
           
           <Separator />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <ConnectionPanel />
-            <DockerHelper />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <PublishPanel />
             <SubscriptionPanel />
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div className="h-full">
-              <DataVisualization />
-            </div>
-            <div className="h-full">
-              <MessageLog />
-            </div>
+          <div className="grid grid-cols-1 gap-4">
+            <MessageLog />
           </div>
         </div>
       </div>
