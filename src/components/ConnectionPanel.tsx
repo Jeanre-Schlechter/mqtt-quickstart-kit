@@ -21,8 +21,9 @@ const ConnectionPanel = () => {
     setConnectionOptions 
   } = useMQTTStore();
   
+  // Use string type explicitly for password to avoid the Buffer type
   const [username, setUsername] = useState(connectionOptions.username || '');
-  const [password, setPassword] = useState(connectionOptions.password || '');
+  const [password, setPassword] = useState(connectionOptions.password ? connectionOptions.password.toString() : '');
   const [clientId, setClientId] = useState(connectionOptions.clientId || '');
   const [clean, setClean] = useState(connectionOptions.clean !== false);
   const [brokerAddress, setBrokerAddress] = useState(brokerUrl);
@@ -40,7 +41,7 @@ const ConnectionPanel = () => {
       clientId,
       username: username || undefined,
       // Convert password to string to fix the type error
-      password: password ? password.toString() : undefined,
+      password: password || undefined,
       clean,
     };
     
