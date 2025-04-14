@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -127,7 +126,6 @@ const MessageItem = ({ message }: { message: Message }) => {
     navigator.clipboard.writeText(message.payload);
   };
   
-  // Try to format JSON payload
   const formatPayload = (payload: string) => {
     try {
       const parsed = JSON.parse(payload);
@@ -135,6 +133,11 @@ const MessageItem = ({ message }: { message: Message }) => {
     } catch (e) {
       return payload;
     }
+  };
+  
+  const formatTime = (timestamp: number) => {
+    const date = new Date(timestamp);
+    return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}.${date.getMilliseconds().toString().padStart(3, '0')}`;
   };
   
   const formattedPayload = formatPayload(message.payload);

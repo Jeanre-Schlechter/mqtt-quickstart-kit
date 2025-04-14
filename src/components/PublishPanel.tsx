@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -39,7 +38,8 @@ const PublishPanel = () => {
       return;
     }
 
-    publish(topic, message, { qos: parseInt(qos), retain });
+    // Use the correct QoS type by parsing the string as a number and casting it to type QoS
+    publish(topic, message, { qos: parseInt(qos) as 0 | 1 | 2, retain });
     
     toast({
       title: "Message Published",

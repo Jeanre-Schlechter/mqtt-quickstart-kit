@@ -39,7 +39,8 @@ const SubscriptionPanel = () => {
       return;
     }
 
-    subscribe(topic, { qos: parseInt(qos) });
+    // Use the correct QoS type by parsing the string as a number and casting it to type QoS
+    subscribe(topic, { qos: parseInt(qos) as 0 | 1 | 2 });
     
     toast({
       title: "Subscribed",

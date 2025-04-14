@@ -39,7 +39,8 @@ const ConnectionPanel = () => {
       ...connectionOptions,
       clientId,
       username: username || undefined,
-      password: password || undefined,
+      // Convert password to string to fix the type error
+      password: password ? password.toString() : undefined,
       clean,
     };
     
