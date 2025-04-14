@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -39,11 +38,11 @@ const ConnectionPanel = () => {
       ...connectionOptions,
       clientId,
       clean,
-      port: 15085, // Using your specific port
+      port: 19048, // Updated port
     };
     
     setConnectionOptions(options);
-    connect('mqtt://4.tcp.eu.ngrok.io', options); // Using your specific broker
+    connect('mqtt://5.tcp.eu.ngrok.io', options);
   };
 
   const handleDisconnect = () => {
@@ -67,7 +66,7 @@ const ConnectionPanel = () => {
         <div className="space-y-4">
           <div>
             <p className="text-sm mb-2">
-              Broker: <strong>mqtt://4.tcp.eu.ngrok.io:15085</strong>
+              Broker: <strong>mqtt://5.tcp.eu.ngrok.io:19048</strong>
             </p>
           </div>
           

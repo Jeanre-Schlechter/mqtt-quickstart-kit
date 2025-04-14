@@ -26,7 +26,7 @@ const Index = () => {
           <div className="text-left">
             <h1 className="text-3xl font-bold tracking-tight">MQTT Dashboard</h1>
             <p className="text-muted-foreground">
-              Connected to mqtt://4.tcp.eu.ngrok.io:15085 with topic demo/topic
+              Connected to mqtt://5.tcp.eu.ngrok.io:19048 with topic demo/topic
             </p>
           </div>
           

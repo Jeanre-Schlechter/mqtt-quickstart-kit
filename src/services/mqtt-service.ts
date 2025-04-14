@@ -1,4 +1,3 @@
-
 import mqtt, { MqttClient, IClientOptions, IClientSubscribeOptions } from 'mqtt';
 import { create } from 'zustand';
 import { toast } from '@/hooks/use-toast';
@@ -35,9 +34,9 @@ export const useMQTTStore = create<MQTTState>((set, get) => ({
   connectionOptions: {
     clientId: `mqttjs_${Math.random().toString(16).substr(2, 8)}`,
     clean: true,
-    port: 15085,
+    port: 19048,
   },
-  brokerUrl: 'mqtt://4.tcp.eu.ngrok.io',
+  brokerUrl: 'mqtt://5.tcp.eu.ngrok.io',
   
   connect: (url?: string, options?: IClientOptions) => {
     const state = get();
