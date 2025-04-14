@@ -35,7 +35,7 @@ export const useMQTTStore = create<MQTTState>((set, get) => ({
   connectionOptions: {
     clientId: `mqttjs_${Math.random().toString(16).substr(2, 8)}`,
     clean: true,
-    port: 9001, // Using the WebSocket port
+    port: 19048, // Using the WebSocket port
     protocol: 'wss', // Using secure WebSockets
   },
   brokerUrl: 'wss://5.tcp.eu.ngrok.io',
